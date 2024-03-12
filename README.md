@@ -11,3 +11,14 @@
 <!-- yarn db:migrate -->
 <!-- yarn db:seeds -->
 * Step 3: git init <!-- to initialize a git repo-->
+
+
+# Packages used
+- bcryptjs = hashing and salting passwords.
+- http-status = to show the status of the request by HTTP status codes.
+- express = web framework for creating RESTful APIs.
+- dotenv = module for loading environment variables from a .env file.
+- jsonwebtoken = module for generating and verifying JSON Web Tokens.
+- sequelize = ORM for interacting with databases.
+- nodemon = development tool for automatically restarting the server.
+- multer = middleware for handling form-data responses.

@@ -15,7 +15,7 @@ const login = async function (req) {
     if (result.success) {
         token = await generateToken(result.data, result.roleDetail);
         userData = result.data;
-        return { message: 'Login Successful', data: { token, userData }, success: true };
+        return { message: 'Login Successfull', data: { token, userData }, success: true };
     }
     return result;
 };

@@ -1,5 +1,5 @@
 //  to show http status on success, failure
-const httpStatus = require('http-status');
+const httpStatus = require('http-status'); // hand
 const userManager = require('../businessLogic/userManager');
 
 const register = async function (req, res) {
