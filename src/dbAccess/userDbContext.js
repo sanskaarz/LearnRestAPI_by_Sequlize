@@ -3,12 +3,39 @@ const { User, Role, Status
 } = require('../../models')
 const { defaultStatus, defaultRoles } = require('../utils/helper')
 
+const fs = require('fs');
+const path = require('path');
+const baseDir = path.join(__dirname, '../../');
+const mainDir = `${baseDir}documents`;
+const dir = `${baseDir}documents/profile`;
+
+
+const writeFiles = async (
+    file
+) => {
+    if (!fs.existsSync(mainDir)) {
+        fs.mkdirSync(mainDir);
+    }
+    if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir);
+    }
+    if (file && file.length > 0) {
+        await Promise.all(
+            file.map((file) => {
+                fs.writeFileSync(path.resolve(dir, file.originalname), file.buffer, () => console.log('image downloaded3'));
+            })
+        );
+    }
+};
+
+
 
 
 const register = async (req) => {
     try {
-        let emails = req.body.email?.toLowerCase()
-        let profilePicture = req.file.originalname.toLowerCase()
+        body = JSON.parse(req.body.profileData)
+        let emails = body.email?.toLowerCase()
+        let { profilePicture } = req.files
 
         const user = await User.findOne({
             where: { email: emails }
@@ -20,7 +47,6 @@ const register = async (req) => {
             where: { key: defaultStatus.approved }
         })
 
-
         if (user) {
             return {
                 success: false,
@@ -30,18 +56,27 @@ const register = async (req) => {
                 },
             };
         }
-
-
-        const hashedPassword = await bcrypt.hash(req.body.password, 12);
-        const newUser = await User.create({
-            image: profilePicture,
+        const hashedPassword = await bcrypt.hash(body.password, 12);
+        let userObj = {
             statusId: newStatus.id,
             roleId: newRole.id,
-            name: req.body.name,
+            name: body.name,
             email: emails,
             password: hashedPassword,
-            mobile: req.body.mobile
-        });
+            mobile: body.mobile
+        };
+        await writeFiles(profilePicture)
+
+        if (profilePicture && profilePicture.length > 0) {
+            const fileExist = profilePicture.find((image) => image.originalname);
+            if (fileExist) {
+                userObj['image'] = fileExist.originalname;
+            }
+        }
+        const newUser = await User.create(
+            userObj
+        );
+
         return {
             success: true,
             data: newUser,

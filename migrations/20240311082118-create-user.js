@@ -24,6 +24,20 @@ module.exports = {
       mobile: {
         type: Sequelize.STRING
       },
+      roleId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Roles',
+          key: 'id'
+        }
+      },
+      statusId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Statuses',
+          key: 'id'
+        }
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
