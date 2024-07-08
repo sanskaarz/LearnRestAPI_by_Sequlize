@@ -7,7 +7,7 @@ const file = multer();
 const router = express.Router();
 const fileUpload = multer();
 
-// router.post('/register', file.single('profilePicture', 2), usercontroller.register);
+// router.post('/register', file.single('profilePicture'), usercontroller.register);
 // If you only need to handle a single file upload un single field named 'profilePicture'
 
 // to handel multiple file uploads in a single field
